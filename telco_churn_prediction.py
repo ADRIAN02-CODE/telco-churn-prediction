@@ -36,3 +36,20 @@ RANDOM_STATE = 42  # [Beginner Note] Ensures results are the same each time you 
 TEST_SIZE = 0.2    # 20% of data will be saved for testing later
 
 print('Libraries imported!')
+
+
+# [Beginner Note] Let's look for the data file in a few common places, so anyone with the file can load it.
+possible_paths = ['Telecom Dataset.xlsx', '/content/Telecom Dataset.xlsx', 'WA_Fn-UseC_-Telco-Customer-Churn.csv']
+data_loaded = False
+for path in possible_paths:
+    if os.path.exists(path):
+        if path.lower().endswith('.csv'):
+            df = pd.read_csv(path)
+        else:
+            df = pd.read_excel(path)
+        print(f'Data loaded from {path}')
+        data_loaded = True
+        break
+if not data_loaded:
+    raise FileNotFoundError('Dataset not found. Please upload it and update possible_paths.')
+print(df.head())
