@@ -4,7 +4,7 @@
   "metadata": {
     "colab": {
       "provenance": [],
-      "authorship_tag": "ABX9TyNAjC4hGfD0Vp6JH2nJmfe7",
+      "authorship_tag": "ABX9TyM9ckyyiT+AGppVaxPHkQVJ",
       "include_colab_link": true
     },
     "kernelspec": {
@@ -28,13 +28,13 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 1,
+      "execution_count": null,
       "metadata": {
         "id": "jAY5MRiQNb-5",
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
-        "outputId": "c0cb92db-c434-4a72-e234-603141301024"
+        "outputId": "e35385c5-3e33-4ed4-d0f7-0dde03bc6e67"
       },
       "outputs": [
         {
@@ -109,9 +109,9 @@
           "base_uri": "https://localhost:8080/"
         },
         "id": "j2reC3jHVWf0",
-        "outputId": "ab41d04f-0eb1-4646-a0c6-d4bfdb4ecdac"
+        "outputId": "99414f06-102d-4f2d-8833-6b6a137417c1"
       },
-      "execution_count": 4,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -171,9 +171,9 @@
           "height": 1000
         },
         "id": "V28RqNy3fccG",
-        "outputId": "dc27f246-c35f-400b-e60a-a9b443cce676"
+        "outputId": "0d1dbb97-f03f-4e28-a775-7bcad9f39cd1"
       },
-      "execution_count": 5,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -230,6 +230,36 @@
           "metadata": {}
         }
       ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# [Beginner Note] We clean up text, fix numbers, and make all data suitable for ML models.\n",
+        "# Remove unnecessary columns (e.g., customer ID)\n",
+        "if 'customerID' in df.columns:\n",
+        "    df = df.drop('customerID', axis=1)\n",
+        "\n",
+        "# Convert strings to numbers, handle missing values\n",
+        "df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')\n",
+        "df['TotalCharges'].fillna(df['TotalCharges'].median(), inplace=True)\n",
+        "\n",
+        "# Simplify categorical entries\n",
+        "for col in ['OnlineSecurity', 'OnlineBackup', 'TechSupport']:\n",
+        "    if col in df.columns:\n",
+        "        df[col] = df[col].replace({'No internet service': 'No'})\n",
+        "\n",
+        "# Encode target (Churn) as numbers\n",
+        "df['Churn'] = df['Churn'].map({'Yes': 1, 'No': 0})\n",
+        "\n",
+        "# One-hot encode all other categories\n",
+        "cat_cols = df.select_dtypes(include=['object']).columns.tolist()\n",
+        "df = pd.get_dummies(df, columns=cat_cols, drop_first=True)\n"
+      ],
+      "metadata": {
+        "id": "WPCVDFNjnEDK"
+      },
+      "execution_count": null,
+      "outputs": []
     },
     {
       "cell_type": "markdown",
