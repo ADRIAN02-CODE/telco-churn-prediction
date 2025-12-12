@@ -37,10 +37,4 @@ This project uses the **Telco Customer Churn dataset** to predict churn using ma
 
 ---
 
-## Installation
 
-Clone the repository:
-
-```bash
-git clone <repo_url>
-cd <repo_folder>
